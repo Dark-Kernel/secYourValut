@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const axios = require('axios');
+
+const https = require("https");
+const agent = new https.Agent({ rejectUnauthorized: false });
+const axios = require('axios').create({ httpsAgent: agent });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,9 +19,9 @@ app.get('/', (req, res) => {
 
 // Placeholder for Kasm API interaction
 // In a real app, you'd store KASM_URL, KASM_USERNAME, KASM_PASSWORD securely (e.g., env variables)
-const KASM_URL = 'http://your-kasm-server-url'; // Replace with your Kasm server URL
-const KASM_USERNAME = 'admin'; // Replace with your Kasm admin username
-const KASM_PASSWORD = 'admin_password'; // Replace with your Kasm admin password
+const KASM_URL = 'https://34.226.215.131/'; // Replace with your Kasm server URL
+const KASM_USERNAME = 'admin@kasm.local'; // Replace with your Kasm admin username
+const KASM_PASSWORD = 'Sumit@kasm123'; // Replace with your Kasm admin password
 
 // Function to get Kasm API token (simplified)
 async function getKasmApiToken() {
@@ -44,6 +47,7 @@ app.post('/launch-app', async (req, res) => {
 
     try {
         const token = await getKasmApiToken();
+        console.log('Kasm API Token:', token);
         // Here you would typically:
         // 1. Check if a Kasm user exists for 'userId'
         // 2. If not, create one
@@ -58,6 +62,31 @@ app.post('/launch-app', async (req, res) => {
         res.status(500).json({ error: 'Failed to launch application' });
     }
 });
+
+// curl request for above function route  /launch-app : 
+// curl -X POST -H "Content-Type: application/json" -d '{"userId": "user123", "appId": "app456"}' http://localhost:5000/launch-app
+
+app.post('/kasm/launch', async (req, res) => {
+  const { userId, appId } = req.body;
+  // 1. Try to fetch user
+  let userDetails = await postKasm('/api/public/get_user', {
+    api_key, api_key_secret, target_user: { username: userId }
+  });
+  if (userDetails.error_message) {
+    // 2. If user not found, create user
+    await postKasm('/api/public/create_user', {
+      api_key, api_key_secret,
+      target_user: { username: userId, password: generatePassword(), locked: false, disabled: false }
+    });
+  }
+  // 3. Create session token for single-use launch
+  let tokenResponse = await postKasm('/api/public/create_session_token', {
+    api_key, api_key_secret, requesting_user: userId, app_id: appId
+  });
+  res.json(tokenResponse);
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
