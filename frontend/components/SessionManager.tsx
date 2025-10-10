@@ -178,6 +178,12 @@ export default function SessionManager({ userId }: SessionManagerProps) {
                           View
                         </button>
                         <button
+                          onClick={() => window.open(session.browser_url, '_blank')}
+                          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded transition-colors"
+                        >
+                          Open
+                        </button>
+                        <button
                           onClick={() => controlSession(session.session_id, 'pause')}
                           className="px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 text-white text-sm rounded transition-colors"
                         >
