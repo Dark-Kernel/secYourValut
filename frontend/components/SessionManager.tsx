@@ -12,9 +12,10 @@ interface Session {
 
 interface SessionManagerProps {
   userId: string;
+  authToken: string;
 }
 
-export default function SessionManager({ userId }: SessionManagerProps) {
+export default function SessionManager({ userId, authToken }: SessionManagerProps) {
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(false);
   const [activeSession, setActiveSession] = useState<Session | null>(null);
@@ -25,7 +26,12 @@ export default function SessionManager({ userId }: SessionManagerProps) {
 
   const fetchSessions = async () => {
     try {
-      const res = await fetch(`${API_BASE}/users/${userId}/sessions`);
+      const res = await fetch(`${API_BASE}/users/${userId}/sessions`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
       const data = await res.json();
       setSessions(data.sessions || []);
     } catch (error) {
@@ -37,14 +43,17 @@ export default function SessionManager({ userId }: SessionManagerProps) {
     fetchSessions();
     const interval = setInterval(fetchSessions, 5000);
     return () => clearInterval(interval);
-  }, [userId]);
+  }, [userId, authToken]);
 
   const createSession = async () => {
     setLoading(true);
     try {
       const res = await fetch(`${API_BASE}/sessions`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
         body: JSON.stringify({
           user_id: userId,
           persistence_enabled: persistenceEnabled,
@@ -65,6 +74,9 @@ export default function SessionManager({ userId }: SessionManagerProps) {
     try {
       await fetch(`${API_BASE}/sessions/${sessionId}/${action}`, {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
       });
       await fetchSessions();
     } catch (error) {
@@ -76,6 +88,9 @@ export default function SessionManager({ userId }: SessionManagerProps) {
     try {
       await fetch(`${API_BASE}/sessions/${sessionId}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
       });
       if (activeSession?.session_id === sessionId) {
         setActiveSession(null);
@@ -107,7 +122,7 @@ export default function SessionManager({ userId }: SessionManagerProps) {
       <div className="lg:col-span-1 space-y-6">
         <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-white mb-4">Create New Session</h2>
-          
+
           <div className="space-y-4">
             <div>
               <label className="flex items-center space-x-2 text-slate-300">
@@ -147,7 +162,7 @@ export default function SessionManager({ userId }: SessionManagerProps) {
           <h2 className="text-xl font-semibold text-white mb-4">
             Your Sessions ({sessions.length})
           </h2>
-          
+
           <div className="space-y-3">
             {sessions.length === 0 ? (
               <p className="text-slate-500 text-center py-8">No active sessions</p>

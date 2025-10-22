@@ -1,0 +1,44 @@
+diff --git a/frontend/app/page.tsx b/frontend/app/page.tsx
+index fe27f1d..d13a0ef 100644
+--- a/frontend/app/page.tsx
++++ b/frontend/app/page.tsx
+@@ -26,7 +26,7 @@ export default function Home() {
+     setLoading(true);
+     setError('');
+     try {
+-      const res = await fetch(`http://localhost:5000/api/auth/code/${code}`);
++      const res = await fetch(`https://securevault-743s.onrender.com/api/auth/code/${code}`);
+       const data = await res.json();
+ 
+       if (!res.ok || !data.success) {
+diff --git a/frontend/components/SessionManager.tsx b/frontend/components/SessionManager.tsx
+index d85ee09..125d540 100644
+--- a/frontend/components/SessionManager.tsx
++++ b/frontend/components/SessionManager.tsx
+@@ -177,6 +177,13 @@ export default function SessionManager({ userId }: SessionManagerProps) {
+                         >
+                           View
+                         </button>
++                        <button
++                          onClick={() => window.open(session.browser_url, '_blank')}
++                          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded transition-colors"
++                        >
++                          Open
++                        </button>
++
+                         <button
+                           onClick={() => controlSession(session.session_id, 'pause')}
+                           className="px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 text-white text-sm rounded transition-colors"
+diff --git a/frontend/package.json b/frontend/package.json
+index 5c50a63..2ece62e 100644
+--- a/frontend/package.json
++++ b/frontend/package.json
+@@ -3,7 +3,7 @@
+   "version": "0.1.0",
+   "private": true,
+   "scripts": {
+-    "dev": "next dev --turbopack",
++    "dev": "next dev --turbopack -H 0.0.0.0",
+     "build": "next build --turbopack",
+     "start": "next start",
+     "lint": "eslint"
