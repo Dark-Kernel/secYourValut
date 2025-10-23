@@ -13,6 +13,10 @@ export default function SecureVault() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleclick = () => {
+    window.location.href = "/";
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white font-sans">
       {/* Navigation */}
@@ -29,10 +33,11 @@ export default function SecureVault() {
             </span>
           </div>
           <div className="flex items-center space-x-8">
+            <a href="/home" className="text-slate-300 hover:text-white transition-colors">Home</a>
             <a href="#features" className="text-slate-300 hover:text-white transition-colors">Features</a>
             <a href="#how-it-works" className="text-slate-300 hover:text-white transition-colors">How It Works</a>
-            <a href="#how-it-works" className="text-slate-300 hover:text-white transition-colors">About</a>
-            <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 font-medium shadow-lg shadow-cyan-500/30">
+            <a href="/about" className="text-slate-300 hover:text-white transition-colors">About</a>
+            <button onClick={handleclick} className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 font-medium shadow-lg shadow-cyan-500/30">
               Get Started
             </button>
           </div>
@@ -42,7 +47,7 @@ export default function SecureVault() {
       {/* Hero Section */}
       <section className="pt-20 pb-10 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center space-y-8">
+          <div className="text-center space-y-4">
             <div className="inline-block">
               <div className="flex items-center space-x-2 bg-blue-500/10 border border-slate-700/30 rounded-full px-4 py-2">
                 <Lock className="w-4 h-4 text-cyan-400" />
@@ -61,7 +66,7 @@ export default function SecureVault() {
               your data is protected in sandboxed environments.
             </p>
             <div className="flex items-center justify-center space-x-4">
-              <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 font-semibold text-lg shadow-2xl shadow-cyan-500/50 flex items-center space-x-2">
+              <button onClick={handleclick} className="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 font-semibold text-lg shadow-2xl shadow-cyan-500/50 flex items-center space-x-2">
                 <span>Start Secure Session</span>
                 <ArrowRight className="w-5 h-5" />
               </button>
@@ -156,7 +161,7 @@ export default function SecureVault() {
             <p className="text-xl text-slate-300">Three simple steps to secure browsing</p>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-4">
             {[
               { icon: Smartphone, title: 'Authenticate with Mobile', description: 'Open the SecureVault app on your mobile device and scan the QR code or approve the session request.' },
               { icon: Globe, title: 'VM Container Launches', description: 'A fresh virtual machine container is instantly created with a clean browsing environment.' },
@@ -182,9 +187,9 @@ export default function SecureVault() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 border-t border-slate-700/30">
+      <footer className="py-6 px-3 border-t border-slate-700/30">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center space-x-3 mb-6">
+          <div className="flex items-center justify-center space-x-3 mb-3">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-lg flex items-center justify-center shadow-lg shadow-cyan-500/30">
               <Shield className="w-6 h-6" />
             </div>

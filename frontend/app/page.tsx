@@ -258,7 +258,9 @@ export default function Home() {
           <div className="text-center mb-8">
             <div className="flex items-center justify-center space-x-3 mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center">
-                <Shield className="w-7 h-7 text-white" />
+                <a href='/home'>
+                  <Shield className="w-7 h-7 text-white" />
+                </a>
               </div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                 SecureVault

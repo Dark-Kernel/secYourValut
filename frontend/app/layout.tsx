@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'SecureVault - Ephemeral Browser Workspaces',
   description: 'Enterprise secure access platform with containerized browser sessions',
+  icons: { icon: '/logo.png' }
 };
 
 export default function RootLayout({
