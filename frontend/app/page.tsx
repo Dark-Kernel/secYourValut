@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Shield, Lock, LogOut, Clock, CheckCircle, XCircle } from 'lucide-react';
 import SessionManager from '@/components/SessionManager';
+import Image from 'next/image';
 
 export default function Home() {
   const CODE_LENGTH = 5;
@@ -250,16 +251,16 @@ export default function Home() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-blue-900 flex items-center justify-center p-4">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 blur-3xl"></div>
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-cyan-600/10 blur-3xl"></div>
 
-        <div className="relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 w-full max-w-md shadow-2xl">
+        <div className="relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl border border-slate-700/30 rounded-2xl p-8 w-full max-w-md shadow-2xl">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center space-x-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center">
                 <Shield className="w-7 h-7 text-white" />
               </div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                 SecureVault
               </h1>
             </div>
@@ -277,7 +278,7 @@ export default function Home() {
                 value={char}
                 onChange={(e) => handleChange(e.target.value, idx)}
                 onKeyDown={(e) => handleKeyDown(e, idx)}
-                className="w-14 h-14 text-center text-2xl font-bold bg-slate-700/50 border border-white/20 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 focus:outline-none text-white disabled:bg-slate-700/30 transition-all duration-200"
+                className="w-14 h-14 text-center text-2xl font-bold bg-slate-700/50 border border-slate-600/30 rounded-xl focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/50 focus:outline-none text-white disabled:bg-slate-700/30 transition-all duration-200"
                 disabled={loading || biometricStatus === 'pending'}
               />
             ))}
@@ -290,9 +291,9 @@ export default function Home() {
           )}
 
           {loading && (
-            <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg flex items-center justify-center space-x-2">
-              <Lock className="w-4 h-4 text-blue-400 animate-pulse" />
-              <p className="text-blue-400 text-sm">Initiating authentication...</p>
+            <div className="mb-4 p-3 bg-cyan-500/10 border border-cyan-500/30 rounded-lg flex items-center justify-center space-x-2">
+              <Lock className="w-4 h-4 text-cyan-400 animate-pulse" />
+              <p className="text-cyan-400 text-sm">Initiating authentication...</p>
             </div>
           )}
 
@@ -306,7 +307,7 @@ export default function Home() {
           {biometricStatus === 'pending' && (
             <div className="text-center">
               <div className="inline-flex items-center space-x-2 text-slate-400 text-sm">
-                <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
                 <span>Please approve the login request on your mobile device</span>
               </div>
             </div>
@@ -317,32 +318,45 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-blue-900">
-      <header className="bg-slate-900/80 backdrop-blur-lg border-b border-white/10 px-6 py-4 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <Shield className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                SecureVault
-              </h1>
-              <p className="text-slate-400 text-sm">User: <span className="text-slate-300 font-medium">{username}</span></p>
-            </div>
-          </div>
-          <button
-            onClick={handleLogout}
-            className="px-5 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white rounded-lg transition-all duration-300 font-medium shadow-lg shadow-red-500/30 flex items-center space-x-2"
-          >
-            <LogOut className="w-4 h-4" />
-            <span>Logout</span>
-          </button>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+      <header className="bg-slate-800/80 backdrop-blur-lg border-b border-slate-700/30 px-8 py-3">
+  <div className="max-w-8xl mx-auto flex items-center justify-between">
+    {/* Left Section - Logo and Title */}
+    <div className="flex items-center space-x-4">
+      <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center bg-gradient-to-br from-cyan-600 to-cyan-400">
+        <Image
+          src="/logo.png"
+          alt="Logo"
+          width={40}
+          height={40}
+          className="object-contain"
+        />
+      </div>
+      <div>
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-300 bg-clip-text text-transparent">
+          SecureVault
+        </h1>
+        <p className="text-slate-400 text-sm">
+          User:{' '}
+          <span className="text-slate-300 font-medium">{username}</span>
+        </p>
+      </div>
+    </div>
 
-      <main className="p-6">
-        <div className="max-w-7xl mx-auto">
+    {/* Right Section - Logout Button */}
+    <button
+      onClick={handleLogout}
+      className="px-5 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg transition-all duration-300 font-medium shadow-md shadow-cyan-600/20 flex items-center space-x-2"
+    >
+      <LogOut className="w-4 h-4" />
+      <span>Logout</span>
+    </button>
+  </div>
+</header>
+
+
+      <main className="p-3">
+        <div className="max-w-8xl mx-auto">
           <SessionManager userId={username} authToken={authToken} />
         </div>
       </main>
