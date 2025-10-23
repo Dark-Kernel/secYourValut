@@ -43,6 +43,12 @@ export default function AboutPage() {
           </div>
           <div className="flex items-center space-x-8">
             <a
+              href="/home"
+              className="text-slate-300 hover:text-white transition-colors"
+            >
+              Home
+            </a>
+            <a
               href="/home#features"
               className="text-slate-300 hover:text-white transition-colors"
             >
